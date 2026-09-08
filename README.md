@@ -38,8 +38,6 @@ npm run start:dev
 
 El backend queda en `http://localhost:3000`. Ya trae un `.env` con valores de desarrollo listos para usar (no necesitas crearlo).
 
-El backend queda en `http://localhost:3000`. Ya trae un `.env` con valores de desarrollo listos para usar (no necesitas crearlo).
-
 ### Probar que funciona (opcional)
 
 En otra terminal:
