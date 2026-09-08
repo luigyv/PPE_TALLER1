@@ -6,7 +6,11 @@ import { useAuthStore } from '../stores/auth'
 const auth = useAuthStore()
 const router = useRouter()
 
-const form = ref({ email: '', password: '' })
+const form = ref({
+  nombre: '',
+  email: '',
+  password: ''
+})
 const error = ref('')
 const exito = ref(false)
 const cargando = ref(false)
@@ -33,15 +37,38 @@ async function enviar() {
       <p v-if="error" class="field-error">{{ error }}</p>
       <p v-if="exito" class="field-success">Cuenta creada. Redirigiendo al login...</p>
 
-      <div class="field">
-        <label for="email">Correo</label>
-        <input id="email" v-model="form.email" type="email" required autocomplete="username" />
-      </div>
+    <div class="field">
+      <label for="nombre">Nombre</label>
+      <input
+        id="nombre"
+        v-model="form.nombre"
+        type="text"
+        required
+        autocomplete="name"
+      />
+    </div>
 
-      <div class="field">
-        <label for="password">Contraseña</label>
-        <input id="password" v-model="form.password" type="password" required autocomplete="new-password" />
-      </div>
+    <div class="field">
+      <label for="email">Correo</label>
+      <input
+        id="email"
+        v-model="form.email"
+        type="email"
+        required
+        autocomplete="username"
+      />
+    </div>
+
+    <div class="field">
+      <label for="password">Contraseña</label>
+      <input
+        id="password"
+        v-model="form.password"
+        type="password"
+        required
+        autocomplete="new-password"
+      />
+    </div>
 
       <button type="submit" class="btn btn-primary" :disabled="cargando">
         {{ cargando ? 'Creando...' : 'Crear cuenta' }}

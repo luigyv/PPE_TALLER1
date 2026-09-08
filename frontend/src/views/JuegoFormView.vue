@@ -56,6 +56,35 @@ async function guardar() {
     guardando.value = false
   }
 }
+
+  function seleccionarImagen(event) {
+    const archivo = event.target.files?.[0]
+
+    if (!archivo) {
+      return
+    }
+
+    if (!archivo.type.startsWith('image/')) {
+      errores.value.imagen = 'Selecciona un archivo de imagen válido.'
+      return
+    }
+
+    if (archivo.size > 1000 * 1024 * 1024) {
+      errores.value.imagen = 'La imagen no puede superar los 7 MB.'
+      return
+    }
+
+    errores.value.imagen = ''
+
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      form.value.imagen = reader.result
+    }
+
+    reader.readAsDataURL(archivo)
+  }
+
 </script>
 
 <template>
@@ -73,11 +102,45 @@ async function guardar() {
         <span v-if="errores.nombre" class="field-error">{{ errores.nombre }}</span>
       </div>
 
-      <div class="field">
-        <label for="imagen">URL de la imagen</label>
-        <input id="imagen" v-model="form.imagen" type="text" placeholder="https://..." />
-        <span v-if="errores.imagen" class="field-error">{{ errores.imagen }}</span>
+     <div class="field">
+  <label>Imagen del juego</label>
+
+      <div class="image-upload">
+        <input
+          id="imagen"
+          class="image-upload__input"
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          @change="seleccionarImagen"
+        />
+
+        <label for="imagen" class="image-upload__area">
+          <template v-if="!form.imagen">
+            <span class="image-upload__icon">📷</span>
+            <span class="image-upload__title">Elegir una imagen</span>
+            <span class="image-upload__description">
+              PNG, JPG o WEBP · Máximo 2 MB
+            </span>
+          </template>
+
+          <template v-else>
+            <div class="image-upload__preview">
+              <img :src="form.imagen" alt="Vista previa del juego" />
+            </div>
+
+            <span class="image-upload__change">
+              Cambiar imagen
+            </span>
+          </template>
+        </label>
       </div>
+
+      <span v-if="errores.imagen" class="field-error">
+        {{ errores.imagen }}
+      </span>
+    </div>
+
+    
 
       <div class="field">
         <label for="categoria">Categoría</label>
