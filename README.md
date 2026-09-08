@@ -15,14 +15,28 @@ CRUD de videojuegos con NestJS + Prisma + SQLite en el backend, y Vue 3 en el fr
 
 ## 1. Levantar el backend
 
+```
+## 1. Levantar el backend
+
 Abre una terminal en VS Code (Terminal → New Terminal) y ejecuta:
 
 ```bash
 cd backend
 npm install
-npx prisma migrate dev --name init
+```
+
+### Configuración de la base de datos con Prisma
+
+Ejecuta las migraciones y genera el cliente de Prisma:
+
+```bash
+cd backend
+npx prisma migrate dev --name init_juego
+npx prisma generate
 npm run start:dev
 ```
+
+El backend queda en `http://localhost:3000`. Ya trae un `.env` con valores de desarrollo listos para usar (no necesitas crearlo).
 
 El backend queda en `http://localhost:3000`. Ya trae un `.env` con valores de desarrollo listos para usar (no necesitas crearlo).
 
