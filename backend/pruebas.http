@@ -1,0 +1,130 @@
+### ==========================================
+### PRUEBAS BACKEND - PPE_TALLER1
+### Requiere la extensión "REST Client" en VS Code
+### (o copia cada bloque en Postman/Thunder Client)
+### Asegúrate de que el backend esté corriendo (npm run start:dev)
+### ==========================================
+
+@baseUrl = http://localhost:3000
+
+### 1. Registrar usuario nuevo
+# Debe responder 201 con { id, email }
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "prueba@correo.com",
+  "password": "123456"
+}
+
+### 1b. Registrar el mismo email otra vez (debe fallar)
+# Debe responder 409 Conflict "El email ya está registrado"
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "prueba@correo.com",
+  "password": "123456"
+}
+
+### 1c. Registrar con datos inválidos (debe fallar)
+# Debe responder 400 Bad Request (email inválido y password corta)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "no-es-un-email",
+  "password": "123"
+}
+
+### 2. Login con credenciales correctas
+# Debe responder 200 con { access_token: "..." }
+# COPIA el valor de access_token y pégalo abajo en la variable @token
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "prueba@correo.com",
+  "password": "123456"
+}
+
+### 2b. Login con contraseña incorrecta (debe fallar)
+# Debe responder 401 Unauthorized "Credenciales inválidas"
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "prueba@correo.com",
+  "password": "clave-incorrecta"
+}
+
+### ==========================================
+### Pega aquí el token que obtuviste en el paso 2
+### ==========================================
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoicHJ1ZWJhQGNvcnJlby5jb20iLCJpYXQiOjE3ODg4NDY5NjEsImV4cCI6MTc4ODg1MDU2MX0.97BXPBRgvMHvJBH5noQz4pIudyuZyehQ37Vzn954Ie0
+
+
+### 3. Listar juegos (ruta pública, sin token)
+# Debe responder 200 con { data, total, page, limit }
+GET {{baseUrl}}/juegos
+
+### 3b. Listar juegos con paginación y búsqueda
+GET {{baseUrl}}/juegos?search=a&page=1&limit=10
+
+### 4. Obtener un juego por id (ruta pública)
+# Cambia el 1 por un id que exista una vez hayas creado juegos
+GET {{baseUrl}}/juegos/1
+
+### 4b. Obtener un juego con id inexistente (debe fallar)
+# Debe responder 404 "No existe un juego con id 9999"
+GET {{baseUrl}}/juegos/9999
+
+### 5. Crear un juego SIN token (debe fallar)
+# Debe responder 401 Unauthorized
+POST {{baseUrl}}/juegos
+Content-Type: application/json
+
+{
+  "nombre": "Ajedrez",
+  "imagen": "http://ejemplo.com/ajedrez.png",
+  "categoria": "Mesa"
+}
+
+### 6. Crear un juego CON token (debe funcionar)
+# Debe responder 201 con el juego creado (incluye id y creadoEn)
+POST {{baseUrl}}/juegos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nombre": "Ajedrez",
+  "imagen": "http://ejemplo.com/ajedrez.png",
+  "categoria": "Mesa"
+}
+
+### 6b. Crear un juego con datos inválidos (debe fallar)
+# Debe responder 400 Bad Request (nombre vacío)
+POST {{baseUrl}}/juegos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nombre": "",
+  "imagen": "http://ejemplo.com/img.png",
+  "categoria": "Mesa"
+}
+
+### 7. Actualizar un juego (cambia el 1 por el id real que creaste)
+# Debe responder 200 con el juego actualizado
+PATCH {{baseUrl}}/juegos/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "categoria": "Estrategia"
+}
+
+### 8. Eliminar un juego (cambia el 1 por el id real que creaste)
+# Debe responder 204 No Content
+DELETE {{baseUrl}}/juegos/1
+Authorization: Bearer {{token}}
