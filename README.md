@@ -20,7 +20,6 @@ CRUD de videojuegos con NestJS + Prisma + SQLite en el backend, y Vue 3 en el fr
 
 Abre una terminal en VS Code (Terminal → New Terminal) y ejecuta:
 
-```bash
 cd backend
 npm install
 ```
