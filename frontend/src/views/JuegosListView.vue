@@ -57,7 +57,7 @@ async function confirmarEliminacion() {
   <section>
 
     <div class="welcome">
-      <h2>Hola, {{ auth.nombre  || 'Usuario'}}</h2>
+      <h2>Hola, {{ auth.nombre || 'Usuario'}}</h2>
       <p>Explora nuestro catálogo de juegos.</p>
     </div>
     <div class="toolbar">

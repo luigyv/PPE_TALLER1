@@ -17,17 +17,51 @@ const cargando = ref(false)
 
 async function enviar() {
   error.value = ''
+
+  const errorPassword = validarPassword(form.value.password)
+
+  if (errorPassword) {
+    error.value = errorPassword
+    return
+  }
+
   cargando.value = true
+
   try {
     await auth.register(form.value)
+
     exito.value = true
-    setTimeout(() => router.push({ name: 'login' }), 1200)
+
+    setTimeout(() => {
+      router.push({ name: 'login' })
+    }, 1200)
   } catch (e) {
     error.value = 'No se pudo crear la cuenta. Prueba con otro correo.'
   } finally {
     cargando.value = false
   }
 }
+
+function validarPassword(password) {
+  if (password.length < 8) {
+    return 'La contraseña debe tener mínimo 8 caracteres.'
+  }
+
+  if (!/[0-9]/.test(password)) {
+    return 'La contraseña debe contener al menos un dígito.'
+  }
+
+  if (!/[a-z]/.test(password)) {
+    return 'La contraseña debe contener al menos una minúscula.'
+  }
+
+  if (!/[^A-Za-z0-9]/.test(password)) {
+    return 'La contraseña debe contener al menos un carácter especial.'
+  }
+
+  return ''
+}
+
 </script>
 
 <template>
@@ -61,6 +95,7 @@ async function enviar() {
 
     <div class="field">
       <label for="password">Contraseña</label>
+
       <input
         id="password"
         v-model="form.password"
@@ -68,6 +103,13 @@ async function enviar() {
         required
         autocomplete="new-password"
       />
+
+        <ul class="password-help">
+        <li>Mínimo 8 caracteres</li>
+        <li>Al menos un dígito</li>
+        <li>Al menos una minúscula</li>
+        <li>Al menos un carácter especial</li>
+      </ul>
     </div>
 
       <button type="submit" class="btn btn-primary" :disabled="cargando">
