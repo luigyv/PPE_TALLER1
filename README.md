@@ -1,6 +1,6 @@
-# Taller1_PPE — Videojuegos
+# Taller1_PPE — Videojuegos 
 
-Taller #1 de Plataformas de Programación Empresarial (UPB).
+Taller #1 de Plataformas de Programación Empresarial (UPB Universidad).
 CRUD de videojuegos con NestJS + Prisma + SQLite en el backend, y Vue 3 en el frontend, con autenticación JWT.
 
 ## Estructura
