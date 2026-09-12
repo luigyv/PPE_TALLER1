@@ -10,6 +10,15 @@ datasource db {
 
 model User {
   id       Int    @id @default(autoincrement())
+  nombre   String
   email    String @unique
   password String
+}
+
+model Juego {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  imagen    String
+  categoria String
+  creadoEn  DateTime @default(now())
 }

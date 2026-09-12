@@ -61,7 +61,8 @@ Content-Type: application/json
 ### ==========================================
 ### Pega aquí el token que obtuviste en el paso 2
 ### ==========================================
-@token = PEGA_AQUI_EL_ACCESS_TOKEN
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoicHJ1ZWJhQGNvcnJlby5jb20iLCJpYXQiOjE3ODg4NDY5NjEsImV4cCI6MTc4ODg1MDU2MX0.97BXPBRgvMHvJBH5noQz4pIudyuZyehQ37Vzn954Ie0
+
 
 ### 3. Listar juegos (ruta pública, sin token)
 # Debe responder 200 con { data, total, page, limit }
